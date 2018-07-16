@@ -23,7 +23,7 @@ sc = a.text
 nonce = re.findall(r'<input type="hidden" name="nonce" value="(.+)">',sc,re.I | re.M)[0]
 
 #send login
-s.post(url+'login',data = {'name' : name, 'password' : passwd, 'nonce' : nonce}, cookies = a.cookies)
+s.post(url+'login',data = {'name' : name, 'password' : passwd, 'nonce' : nonce}, cookies = a.cookies,follow_redirects = False)
 
 if (args.action == 'chal'):
     chal = s.get(url+'chals').text
