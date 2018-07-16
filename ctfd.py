@@ -2,6 +2,7 @@ from requests import *
 import re
 from json import loads
 from argparse import ArgumentParser as AP
+from bs4 import BeautifulSoup
 
 parser = AP()
 parser.add_argument('-a','--action',help = 'Action (chal / submit)')
@@ -10,7 +11,7 @@ parser.add_argument('-f','--flag',default = '',help = 'Your Flag')
 args = parser.parse_args()
 
 #config
-name = 'your_username'
+name = 'your_team'
 passwd = 'your_password'
 
 #made session and declaration url
@@ -23,7 +24,7 @@ sc = a.text
 nonce = re.findall(r'<input type="hidden" name="nonce" value="(.+)">',sc,re.I | re.M)[0]
 
 #send login
-s.post(url+'login',data = {'name' : name, 'password' : passwd, 'nonce' : nonce}, cookies = a.cookies,follow_redirects = False)
+s.post(url+'login',data = {'name' : name, 'password' : passwd, 'nonce' : nonce}, cookies = a.cookies, allow_redirects = False)
 
 if (args.action == 'chal'):
     chal = s.get(url+'chals').text
@@ -46,5 +47,17 @@ elif (args.action == 'submit'):
             print '[!] 404 Not Found !!!'
     else:
         print '[!] ID / Flag still empty'
+elif (args.action == 'scoreboard'):
+    score = s.get(url+'scoreboard').text
+    bs = BeautifulSoup(score,'html.parser')
+    for tr in bs.findAll("tr"):
+        try:
+            rank = re.findall(r'>(.+)</th>',str(tr.findAll('th')),re.I | re.M)[0]
+            team = re.findall(r'>(.+)</a>',str(tr.findAll('a')), re.I | re.M)[0]
+            point = re.findall(r'>(.+)</td>',str(tr.findAll('td')[1]), re.I | re.M)[0]
+            print '['+rank+']', team, '=>', point
+        except:
+            continue
+
 else:
     print 'Use -h to show help menu !!!'
