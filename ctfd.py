@@ -54,6 +54,8 @@ elif (args.action == 'scoreboard'):
         try:
             rank = re.findall(r'>(.+)</th>',str(tr.findAll('th')),re.I | re.M)[0]
             team = re.findall(r'>(.+)</a>',str(tr.findAll('a')), re.I | re.M)[0]
+            if (name.lower() == team.lower()):
+                team += ' (You)'
             point = re.findall(r'>(.+)</td>',str(tr.findAll('td')[1]), re.I | re.M)[0]
             print '['+rank+']', team, '=>', point
         except:
