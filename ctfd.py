@@ -10,12 +10,12 @@ parser.add_argument('-f','--flag',default = '',help = 'Your Flag')
 args = parser.parse_args()
 
 #config
-name = 'sentinel'
-passwd = 'helloworld'
+name = 'your_username'
+passwd = 'your_password'
 
 #made session and declaration url
 s = Session()
-url = 'https://ctf.compfest.web.id/'
+url = 'https://ctf.url/'
 
 #made connection to get token
 a = s.get(url+'login')
