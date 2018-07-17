@@ -1,10 +1,10 @@
 from requests import *
 import re
 from json import loads
-from argparse import ArgumentParser as AP
+from argparse import ArgumentParser as DAK
 from bs4 import BeautifulSoup
 
-parser = AP()
+parser = DAK()
 parser.add_argument('-a','--action',help = 'Action (chal / submit)')
 parser.add_argument('--id',default = '',help = 'Chall ID')
 parser.add_argument('-f','--flag',default = '',help = 'Your Flag')
